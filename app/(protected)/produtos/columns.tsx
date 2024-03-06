@@ -23,6 +23,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { useContext } from 'react';
 import { ProductsContext } from '@/context/product-contex';
+import Link from 'next/link';
 
 export interface Product {
   id: number;
@@ -35,6 +36,7 @@ export interface Product {
 
 export const columns: ColumnDef<Product>[] = [
   {
+    header: 'Ações',
     id: 'actions',
     cell: ({ row }) => {
       const id = row.original.id;
@@ -50,15 +52,20 @@ export const columns: ColumnDef<Product>[] = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Ações</DropdownMenuLabel>
+              <DropdownMenuLabel>Opções</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <AlertDialogTrigger className="w-full flex justify-between">
                   Remover <Trash2 className="h-4 w-4" />
                 </AlertDialogTrigger>
               </DropdownMenuItem>
-              <DropdownMenuItem className="w-full flex justify-between">
-                Editar <Pencil className="h-4 w-4" />
+              <DropdownMenuItem>
+                <Link
+                  href={`/editar-produto/${id}`}
+                  className="w-full flex justify-between"
+                >
+                  Editar <Pencil className="h-4 w-4" />
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
             <AlertDialogContent>

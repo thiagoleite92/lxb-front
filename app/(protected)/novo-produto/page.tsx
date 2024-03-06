@@ -1,5 +1,9 @@
-const NewProduct = () => {
-  return <>oi</>;
+'use client';
+
+import { ProductForm } from '@/components/product/product-form';
+
+const NewProductPage = () => {
+  return <ProductForm />;
 };
 
-export default NewProduct;
+export default NewProductPage;
