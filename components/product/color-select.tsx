@@ -11,11 +11,12 @@ import {
 import { NewItemEnum, ProductsContext } from '@/context/product-contex';
 
 export const ColorSelect = ({ field, isPending }: any) => {
+  const [key, setKey] = useState(+new Date());
   const { colors, addNewItem } = useContext(ProductsContext);
 
   const existColors = colors?.length;
 
-  const formLabel = existColors ? 'Selecione ou Insira Nova Cor' : 'Nova Cor';
+  const formLabel = existColors ? 'Digite ou Insira Nova Cor' : 'Nova Cor';
 
   const [inputState, setInputState] = useState('');
 
@@ -30,6 +31,7 @@ export const ColorSelect = ({ field, isPending }: any) => {
     }
 
     setInputState('');
+    setKey(+new Date());
   }, [isPending]);
 
   return (
@@ -53,6 +55,7 @@ export const ColorSelect = ({ field, isPending }: any) => {
             disabled={inputState || isPending}
             onValueChange={field.onChange}
             defaultValue={field.value}
+            key={key}
           >
             <FormControl>
               <SelectTrigger>

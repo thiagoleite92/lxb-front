@@ -1,5 +1,5 @@
-/* Máscaras ER */
 export default function formatCurrency(v: string) {
+  v = v.toString();
   v = v?.replace(/\D/g, '');
 
   if (!v.length) return v; //Remove tudo o que não é dígito

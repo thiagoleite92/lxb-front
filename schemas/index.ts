@@ -26,24 +26,21 @@ export const RegisterSchema = z.object({
 export type RegisterBody = z.infer<typeof RegisterSchema>;
 
 export const createProductSchemaV1 = z.object({
-  name: z.string().min(3, 'Mínimo 3 caracteres').max(50),
-  price: z
-    .string()
-    .min(1, 'Informe o preço')
-    .transform((v) => Number(v?.replace(/\D/g, ''))),
-  color: z.string().min(3, 'Mínimo 3 caracteres').max(50),
-  brand: z.string().min(3, 'Mínimo 3 caracteres').max(50),
-  model: z.string().min(3, 'Mínimo 3 caracteres').max(50),
+  name: z.string().min(3, 'Mínimo 3 caracteres ou Selecione').max(50),
+  price: z.string().min(1, 'Informe o preço'),
+  color: z.string().min(3, 'Mínimo 3 caracteres ou Selecione').max(50),
+  brand: z.string().min(3, 'Mínimo 3 caracteres ou Selecione').max(50),
+  model: z.string().min(3, 'Mínimo 3 caracteres ou Selecione').max(50),
 });
 
-export type CreateProduct1 = z.infer<typeof createProductSchemaV2>;
+export type CreateProduct1 = z.infer<typeof createProductSchemaV1>;
 
 export const createProductSchemaV2 = z.object({
   name: z.string().min(3, 'Mínimo 3 caracteres').max(50),
   details: z.object({
-    brand: z.string().min(3, 'Mínimo 3 caracteres').max(50),
-    model: z.string().min(3, 'Mínimo 3 caracteres').max(50),
-    color: z.string().min(3, 'Mínimo 3 caracteres').max(50),
+    brand: z.string().min(3, 'Mínimo 3 caracteres ou Selecione').max(50),
+    model: z.string().min(3, 'Mínimo 3 caracteres ou Selecione').max(50),
+    color: z.string().min(3, 'Mínimo 3 caracteres ou Selecione').max(50),
   }),
   price: z.string().min(1, 'Informe o preço'),
 });

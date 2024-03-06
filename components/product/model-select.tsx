@@ -11,6 +11,7 @@ import {
 import { NewItemEnum, ProductsContext } from '@/context/product-contex';
 
 export const ModelSelect = ({ field, isPending }: any) => {
+  const [key, setKey] = useState(+new Date());
   const { models, addNewItem } = useContext(ProductsContext);
 
   const existModel = models?.length;
@@ -30,6 +31,7 @@ export const ModelSelect = ({ field, isPending }: any) => {
     }
 
     setInputState('');
+    setKey(+new Date());
   }, [isPending]);
 
   return (
@@ -53,6 +55,7 @@ export const ModelSelect = ({ field, isPending }: any) => {
             disabled={inputState || isPending}
             onValueChange={field.onChange}
             defaultValue={field.value}
+            key={key}
           >
             <FormControl>
               <SelectTrigger>

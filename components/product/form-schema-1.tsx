@@ -6,18 +6,13 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+
 import { Input } from '@/components/ui/input';
 import { FormError } from '@/components/form-error';
 import { FormSuccess } from '@/components/form-success';
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
-import {
-  CreateProduct1,
-  CreateProductV1,
-  Product,
-  SaveProduct,
-  createProductSchemaV1,
-} from '@/schemas';
+import { CreateProduct1, createProductSchemaV1 } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState, useTransition } from 'react';
 
@@ -32,9 +27,8 @@ export const FormProductSchema1 = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
-  const [resetInput, setResetInput] = useState(false);
 
-  const formSchema1 = useForm<CreateProductV1>({
+  const formSchema1 = useForm<CreateProduct1>({
     resolver: zodResolver(createProductSchemaV1),
     defaultValues: {
       brand: '',
@@ -45,32 +39,43 @@ export const FormProductSchema1 = () => {
     },
   });
 
-  const { watch, setValue, reset } = formSchema1;
+  const { watch, setValue, reset, resetField } = formSchema1;
 
   const priceWatch = watch('price');
 
   useEffect(() => {
-    setValue('price', formatCurrency(priceWatch));
+    return setValue('price', formatCurrency(priceWatch));
   }, [priceWatch, setError, setValue]);
 
   const onSubmitSchema1 = (values: CreateProduct1) => {
     setError('');
     setSuccess('');
 
-    console.log(values);
+    const body = {
+      ...values,
+      price: Number(values?.price?.replace(/\D/g, '')),
+    };
 
     startTransition(async () => {
       try {
-        await productService.saveProduct(values);
+        await productService.saveProduct(body);
 
         setSuccess('Producto Cadastrado');
-        reset();
-        setResetInput((oldState) => !oldState);
       } catch (error) {
-        console.log(error);
+        if (error?.response?.status === 409) {
+          setError('Produto já existe');
+          return;
+        }
+
         setError('Ocorreu um erro, tente novamente');
-        reset();
-        setResetInput((oldState) => !oldState);
+      } finally {
+        reset({
+          brand: '',
+          color: '',
+          model: '',
+          name: '',
+          price: '',
+        });
       }
     });
   };
@@ -81,7 +86,7 @@ export const FormProductSchema1 = () => {
         onSubmit={formSchema1.handleSubmit(onSubmitSchema1)}
         className="space-y-6"
       >
-        <div className="space-y-4">
+        <div className="space-y-4" onFocus={() => setError('')}>
           <FormField
             control={formSchema1.control}
             name="name"
@@ -105,11 +110,7 @@ export const FormProductSchema1 = () => {
             name="brand"
             render={({ field }) => (
               <FormItem>
-                <BrandSelect
-                  field={field}
-                  isPending={isPending}
-                  resetInput={resetInput}
-                />
+                <BrandSelect field={field} isPending={isPending} />
               </FormItem>
             )}
           />
@@ -118,11 +119,7 @@ export const FormProductSchema1 = () => {
             name="model"
             render={({ field }) => (
               <FormItem>
-                <ModelSelect
-                  field={field}
-                  isPending={isPending}
-                  resetInput={resetInput}
-                />
+                <ModelSelect field={field} isPending={isPending} />
               </FormItem>
             )}
           />
@@ -131,11 +128,7 @@ export const FormProductSchema1 = () => {
             name="color"
             render={({ field }) => (
               <FormItem>
-                <ColorSelect
-                  field={field}
-                  isPending={isPending}
-                  resetInput={resetInput}
-                />
+                <ColorSelect field={field} isPending={isPending} />
               </FormItem>
             )}
           />
