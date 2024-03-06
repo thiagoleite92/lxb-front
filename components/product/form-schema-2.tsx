@@ -12,7 +12,6 @@ import { FormError } from '@/components/form-error';
 import { FormSuccess } from '@/components/form-success';
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
-import { CreateProduct1, createProductSchemaV1 } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState, useTransition } from 'react';
 
@@ -21,25 +20,28 @@ import { ModelSelect } from './model-select';
 import { ColorSelect } from './color-select';
 import { ProductsService } from '@/services/ProductService';
 import formatCurrency from '@/utils/formatCurrency';
+import { CreateProductV2, createProductSchemaV2 } from '@/schemas';
 
-export const FormProductSchema1 = () => {
+export const FormProductSchema2 = () => {
   const productService = new ProductsService();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
 
-  const formSchema1 = useForm<CreateProduct1>({
-    resolver: zodResolver(createProductSchemaV1),
+  const formSchema2 = useForm<CreateProductV2>({
+    resolver: zodResolver(createProductSchemaV2),
     defaultValues: {
-      brand: '',
-      color: '',
-      model: '',
+      details: {
+        brand: '',
+        color: '',
+        model: '',
+      },
       name: '',
       price: '',
     },
   });
 
-  const { watch, setValue, reset, resetField } = formSchema1;
+  const { watch, setValue, reset, resetField } = formSchema2;
 
   const priceWatch = watch('price');
 
@@ -47,12 +49,15 @@ export const FormProductSchema1 = () => {
     return setValue('price', formatCurrency(priceWatch));
   }, [priceWatch, setError, setValue]);
 
-  const onSubmitSchema1 = (values: CreateProduct1) => {
+  const onSubmitSchema2 = (values: CreateProductV2) => {
     setError('');
     setSuccess('');
 
     const body = {
-      ...values,
+      name: values?.name,
+      details: {
+        ...values.details,
+      },
       price: Number(values?.price?.replace(/\D/g, '')),
     };
 
@@ -70,9 +75,11 @@ export const FormProductSchema1 = () => {
         setError('Ocorreu um erro, tente novamente');
       } finally {
         reset({
-          brand: '',
-          color: '',
-          model: '',
+          details: {
+            brand: '',
+            color: '',
+            model: '',
+          },
           name: '',
           price: '',
         });
@@ -81,9 +88,9 @@ export const FormProductSchema1 = () => {
   };
 
   return (
-    <Form {...formSchema1}>
+    <Form {...formSchema2}>
       <form
-        onSubmit={formSchema1.handleSubmit(onSubmitSchema1)}
+        onSubmit={formSchema2.handleSubmit(onSubmitSchema2)}
         className="space-y-6"
       >
         <div
@@ -94,7 +101,7 @@ export const FormProductSchema1 = () => {
           }}
         >
           <FormField
-            control={formSchema1.control}
+            control={formSchema2.control}
             name="name"
             render={({ field }) => (
               <FormItem>
@@ -112,8 +119,8 @@ export const FormProductSchema1 = () => {
             )}
           />
           <FormField
-            control={formSchema1.control}
-            name="brand"
+            control={formSchema2.control}
+            name="details.brand"
             render={({ field }) => (
               <FormItem>
                 <BrandSelect field={field} isPending={isPending} />
@@ -121,8 +128,8 @@ export const FormProductSchema1 = () => {
             )}
           />
           <FormField
-            control={formSchema1.control}
-            name="model"
+            control={formSchema2.control}
+            name="details.model"
             render={({ field }) => (
               <FormItem>
                 <ModelSelect field={field} isPending={isPending} />
@@ -130,8 +137,8 @@ export const FormProductSchema1 = () => {
             )}
           />
           <FormField
-            control={formSchema1.control}
-            name="color"
+            control={formSchema2.control}
+            name="details.color"
             render={({ field }) => (
               <FormItem>
                 <ColorSelect field={field} isPending={isPending} />
@@ -139,7 +146,7 @@ export const FormProductSchema1 = () => {
             )}
           />
           <FormField
-            control={formSchema1.control}
+            control={formSchema2.control}
             name="price"
             render={({ field }) => (
               <FormItem>
@@ -147,7 +154,7 @@ export const FormProductSchema1 = () => {
                 <FormControl>
                   <Input
                     {...field}
-                    placeholder="R$ 1000,00"
+                    placeholder="R$ 2000,00"
                     type="text"
                     disabled={isPending}
                   />
@@ -160,7 +167,7 @@ export const FormProductSchema1 = () => {
         <FormError message={error} />
         <FormSuccess message={success} />
         <Button type="submit" className="w-full" disabled={isPending}>
-          Salvar - Primeira Estrutura
+          Salvar - Segunda Estrutura
         </Button>
       </form>
     </Form>
