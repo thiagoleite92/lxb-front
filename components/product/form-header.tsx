@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { FormVersionEnum } from './product-form';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 const font = Poppins({
   subsets: ['latin'],
@@ -23,7 +24,7 @@ export const FormHeader = ({
   onChangeFormVersion,
   formVersion,
 }: HeaderProps) => {
-  console.log(formVersion);
+  const pathname = usePathname();
 
   const onClick = (event) => {
     const { name } = event?.target;
@@ -57,25 +58,28 @@ export const FormHeader = ({
         </h1>
         <p className="text-sm text-muted-foreground">{label}</p>
       </div>
-      <div className="flex w-full justify-evenly ">
-        <Button
-          onClick={onClick}
-          name="backward"
-          disabled={formVersion === FormVersionEnum.Version1}
-        >
-          <ChevronLeft className="pointer-events-none" />
-          Voltar
-        </Button>
 
-        <Button
-          onClick={onClick}
-          name="forward"
-          disabled={formVersion === FormVersionEnum.Version3}
-        >
-          Avançar
-          <ChevronRight className="pointer-events-none" />
-        </Button>
-      </div>
+      {pathname.includes('/novo-produto') && (
+        <div className="flex w-full justify-evenly ">
+          <Button
+            onClick={onClick}
+            name="backward"
+            disabled={formVersion === FormVersionEnum.Version1}
+          >
+            <ChevronLeft className="pointer-events-none" />
+            Voltar
+          </Button>
+
+          <Button
+            onClick={onClick}
+            name="forward"
+            disabled={formVersion === FormVersionEnum.Version3}
+          >
+            Avançar
+            <ChevronRight className="pointer-events-none" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

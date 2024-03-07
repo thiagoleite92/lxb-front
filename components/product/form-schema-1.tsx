@@ -14,15 +14,18 @@ import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import { CreateProduct1, createProductSchemaV1 } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState, useTransition } from 'react';
+import { useContext, useEffect, useState, useTransition } from 'react';
 
 import { BrandSelect } from './brand-select';
 import { ModelSelect } from './model-select';
 import { ColorSelect } from './color-select';
 import { ProductsService } from '@/services/ProductService';
 import formatCurrency from '@/utils/formatCurrency';
+import { ProductFormProps } from './product-form';
+import { Product } from '@/app/(protected)/produtos/columns';
+import { toast } from 'sonner';
 
-export const FormProductSchema1 = () => {
+export const FormProductSchema1 = ({ productId }: ProductFormProps) => {
   const productService = new ProductsService();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>('');
@@ -51,6 +54,8 @@ export const FormProductSchema1 = () => {
     setError('');
     setSuccess('');
 
+    const message = productId ? 'Produto atualizado' : 'Produto salvo';
+
     const body = {
       ...values,
       price: Number(values?.price?.replace(/\D/g, '')),
@@ -58,9 +63,13 @@ export const FormProductSchema1 = () => {
 
     startTransition(async () => {
       try {
-        await productService.saveProduct(body);
+        if (productId) {
+          await productService.update(body, productId);
+        } else {
+          await productService.save(body);
+        }
 
-        setSuccess('Producto Cadastrado');
+        setSuccess(message);
       } catch (error) {
         if (error?.response?.status === 409) {
           setError('Produto já existe');
@@ -69,6 +78,9 @@ export const FormProductSchema1 = () => {
 
         setError('Ocorreu um erro, tente novamente');
       } finally {
+        if (productId) {
+          return;
+        }
         reset({
           brand: '',
           color: '',
@@ -80,7 +92,35 @@ export const FormProductSchema1 = () => {
     });
   };
 
-  const teste = 'w-full bg-red-500';
+  const fetchProductDetails = () => {
+    if (productId) {
+      startTransition(async () => {
+        try {
+          const productDetails = await productService.fetchProductDetails(
+            productId
+          );
+
+          const { product } = productDetails;
+
+          if (product) {
+            setValue('brand', product.brand.brand);
+            setValue('name', product.name);
+            setValue('price', product.price);
+            setValue('model', product.model.model);
+            setValue('color', product.color.color);
+          }
+        } catch (error) {
+          toast.error(
+            'Houve um erro ao carregar os detalhes do produto, tente novamente'
+          );
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchProductDetails();
+  }, []);
 
   return (
     <Form {...formSchema1}>

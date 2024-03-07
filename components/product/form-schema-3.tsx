@@ -71,22 +71,7 @@ export const FormProductSchema3 = () => {
   };
 
   const handleSubmitList = () => {
-    console.log(saveList);
-
-    // const body = saveList.map((item) => ({
-    //   name: item.name,
-    //   brand: item.brand,
-    //   model: item.model,
-    //   data: item.data.map((d) => ({
-    //     price: Number(d.price)
-    //   })),
-    // }));
-
-    // console.log(body);
-
     startTransition(async () => {
-      console.log(saveList);
-
       try {
         await productService.saveProduct(saveList);
 

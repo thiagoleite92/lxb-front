@@ -12,13 +12,15 @@ export enum FormVersionEnum {
   Version3 = 'version3',
 }
 
-interface ProductFormProps {
+export interface ProductFormProps {
   productId?: string;
 }
 
 export const ProductForm = ({ productId }: ProductFormProps) => {
+  console.log(productId);
+
   const [formVersion, setFormVersion] = useState<FormVersionEnum>(
-    FormVersionEnum.Version3
+    FormVersionEnum.Version1
   );
 
   const onChangeFormVersion = (formVersion: FormVersionEnum) => {
@@ -50,9 +52,16 @@ export const ProductForm = ({ productId }: ProductFormProps) => {
         onChangeFormVersion={onChangeFormVersion}
         formVersion={formVersion}
       />
-      {formVersion === FormVersionEnum.Version1 && <FormProductSchema1 />}
-      {formVersion === FormVersionEnum.Version2 && <FormProductSchema2 />}
-      {formVersion === FormVersionEnum.Version3 && <FormProductSchema3 />}
+      {productId && <FormProductSchema1 productId={productId} />}
+      {!productId && formVersion === FormVersionEnum.Version1 && (
+        <FormProductSchema1 />
+      )}
+      {!productId && formVersion === FormVersionEnum.Version2 && (
+        <FormProductSchema2 />
+      )}
+      {!productId && formVersion === FormVersionEnum.Version3 && (
+        <FormProductSchema3 />
+      )}
     </FormWrapper>
   );
 };

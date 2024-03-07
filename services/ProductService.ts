@@ -1,6 +1,5 @@
 import { Product } from '@/app/(protected)/produtos/columns';
 import HttpService from './HttpService';
-import { CreateProductV1, CreateProductV2 } from '@/schemas';
 
 export class ProductsService extends HttpService {
   async findAll(): Promise<{ data: Product[] }> {
@@ -21,7 +20,15 @@ export class ProductsService extends HttpService {
     return this.get('/product/models');
   }
 
-  async saveProduct(product: any) {
+  async save(product: any) {
     return this.post('/product', product);
+  }
+
+  async update(product: any, productId: string) {
+    return this.put(`/product/${productId}`, product);
+  }
+
+  async fetchProductDetails(productId: string) {
+    return this.get(`/product/${productId}`);
   }
 }
