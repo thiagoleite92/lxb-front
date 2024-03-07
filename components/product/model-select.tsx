@@ -64,7 +64,9 @@ export const ModelSelect = ({ field, isPending }: any) => {
             </FormControl>
             <SelectContent>
               {models.map(({ value }) => (
-                <SelectItem value={value}>{value}</SelectItem>
+                <SelectItem key={value} value={value}>
+                  {value}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>

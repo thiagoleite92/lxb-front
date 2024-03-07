@@ -28,8 +28,6 @@ export const FormHeader = ({
   const onClick = (event) => {
     const { name } = event?.target;
 
-    console.log(name, formVersion);
-
     if (name === 'forward' && formVersion === FormVersionEnum.Version1) {
       onChangeFormVersion(FormVersionEnum.Version2);
       return;

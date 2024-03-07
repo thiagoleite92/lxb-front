@@ -4,6 +4,7 @@ import { FormWrapper } from '@/components/product/form-wrapper';
 import { usePathname } from 'next/navigation';
 import { FormHeader } from './form-header';
 import { useState } from 'react';
+import { FormProductSchema3 } from './form-schema-3';
 
 export enum FormVersionEnum {
   Version1 = 'version1',
@@ -17,7 +18,7 @@ interface ProductFormProps {
 
 export const ProductForm = ({ productId }: ProductFormProps) => {
   const [formVersion, setFormVersion] = useState<FormVersionEnum>(
-    FormVersionEnum.Version1
+    FormVersionEnum.Version3
   );
 
   const onChangeFormVersion = (formVersion: FormVersionEnum) => {
@@ -49,10 +50,9 @@ export const ProductForm = ({ productId }: ProductFormProps) => {
         onChangeFormVersion={onChangeFormVersion}
         formVersion={formVersion}
       />
-
       {formVersion === FormVersionEnum.Version1 && <FormProductSchema1 />}
       {formVersion === FormVersionEnum.Version2 && <FormProductSchema2 />}
-      {formVersion === FormVersionEnum.Version3 && <FormProductSchema1 />}
+      {formVersion === FormVersionEnum.Version3 && <FormProductSchema3 />}
     </FormWrapper>
   );
 };

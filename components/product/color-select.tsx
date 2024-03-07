@@ -16,7 +16,7 @@ export const ColorSelect = ({ field, isPending }: any) => {
 
   const existColors = colors?.length;
 
-  const formLabel = existColors ? 'Digite ou Insira Nova Cor' : 'Nova Cor';
+  const formLabel = existColors ? 'Digite ou Selecione Nova Cor' : 'Nova Cor';
 
   const [inputState, setInputState] = useState('');
 
@@ -64,7 +64,9 @@ export const ColorSelect = ({ field, isPending }: any) => {
             </FormControl>
             <SelectContent>
               {colors.map(({ value }) => (
-                <SelectItem value={value}>{value}</SelectItem>
+                <SelectItem key={value} value={value}>
+                  {value}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>

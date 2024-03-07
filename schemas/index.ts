@@ -42,7 +42,23 @@ export const createProductSchemaV2 = z.object({
     model: z.string().min(3, 'Mínimo 3 caracteres ou Selecione').max(50),
     color: z.string().min(3, 'Mínimo 3 caracteres ou Selecione').max(50),
   }),
-  price: z.string().min(1, 'Informe o preço'),
+  price: z.string().min(1, 'Informe o preço').max(6),
 });
 
 export type CreateProductV2 = z.infer<typeof createProductSchemaV2>;
+
+export const createProductSchemaV3 = z.object({
+  products: z.object({
+    brand: z.string().min(3, 'Mínimo 3 caracteres ou Selecione').max(50),
+    model: z.string().min(3, 'Mínimo 3 caracteres ou Selecione').max(50),
+    name: z.string().min(3, 'Mínimo 3 caracteres').max(50),
+    data: z.array(
+      z.object({
+        price: z.string().min(1, 'Informe o preço').max(6),
+        color: z.string().min(3, 'Mínimo 3 caracteres ou Selecione').max(50),
+      })
+    ),
+  }),
+});
+
+export type CreateProductV3 = z.infer<typeof createProductSchemaV3>;
