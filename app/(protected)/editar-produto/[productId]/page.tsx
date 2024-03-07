@@ -1,3 +1,5 @@
+'use client';
+
 import { ProductForm } from '@/components/product/product-form';
 
 interface EditProductPageProps {
@@ -5,7 +7,6 @@ interface EditProductPageProps {
 }
 
 const EditProductPage = ({ params: { productId } }: EditProductPageProps) => {
-  console.log(productId);
   return <ProductForm productId={productId} />;
 };
 

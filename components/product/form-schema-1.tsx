@@ -80,11 +80,13 @@ export const FormProductSchema1 = () => {
     });
   };
 
+  const teste = 'w-full bg-red-500';
+
   return (
     <Form {...formSchema1}>
       <form
         onSubmit={formSchema1.handleSubmit(onSubmitSchema1)}
-        className="space-y-6"
+        className="space-y-6 text-slate-800"
       >
         <div
           className="space-y-4"
@@ -160,7 +162,7 @@ export const FormProductSchema1 = () => {
         <FormError message={error} />
         <FormSuccess message={success} />
         <Button type="submit" className="w-full" disabled={isPending}>
-          Salvar - Primeira Estrutura
+          Salvar
         </Button>
       </form>
     </Form>

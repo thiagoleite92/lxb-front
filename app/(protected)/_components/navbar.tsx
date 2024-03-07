@@ -14,7 +14,7 @@ export const Navbar = () => {
 
   return (
     <nav className="flex w-5/6 items-center justify-between rounded-xl bg-secondary p-4 shadow-sm">
-      <div className="flex gap-x-2 ">
+      <div className="flex gap-x-2 overflow-x-auto">
         <Button
           asChild
           variant={pathname === '/produtos' ? 'default' : 'outline'}

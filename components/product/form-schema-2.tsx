@@ -21,6 +21,7 @@ import { ColorSelect } from './color-select';
 import { ProductsService } from '@/services/ProductService';
 import formatCurrency from '@/utils/formatCurrency';
 import { CreateProductV2, createProductSchemaV2 } from '@/schemas';
+import { AxiosError } from 'axios';
 
 export const FormProductSchema2 = () => {
   const productService = new ProductsService();
@@ -167,7 +168,7 @@ export const FormProductSchema2 = () => {
         <FormError message={error} />
         <FormSuccess message={success} />
         <Button type="submit" className="w-full" disabled={isPending}>
-          Salvar - Segunda Estrutura
+          Salvar
         </Button>
       </form>
     </Form>

@@ -11,27 +11,9 @@ export const FormWrapper = ({ children }: FormWrapperProps) => {
 
   const isEdit = pathname.includes('/editar-produto');
 
-  const cardClass = isEdit
-    ? 'h-5/6 w-3/4 shadow-md space-y-12 p-8'
-    : 'size-5/6 p-8';
-
   return (
-    <Card className={cardClass}>
-      <Header
-        label={
-          isEdit ? 'Edite os dados do produto' : 'Insira os dados do Produto'
-        }
-        title={isEdit ? 'Editar Produto' : 'Novo Produto'}
-      />
-      <div
-        className={
-          isEdit
-            ? 'w-1/2 m-auto flex items-center justify-center'
-            : 'flex flex-col justify-evenly h-5/6 items-center'
-        }
-      >
-        {children}
-      </div>
+    <Card className="size-full overflow-y-auto px-1 rounded-none sm:w-5/6 sm:mb-2 sm:pb-8 sm:rounded-sm mt-2">
+      <div className="sm:w-1/2 sm:mx-auto sm:mt-4">{children}</div>
     </Card>
   );
 };
