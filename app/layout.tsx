@@ -18,8 +18,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className="h-vh">
+      <body className={`${inter.className}`}>{children}</body>
       <Toaster />
     </html>
   );

@@ -54,7 +54,7 @@ export const createProductSchemaV3 = z.object({
     name: z.string().min(3, 'Mínimo 3 caracteres').max(50),
     data: z.array(
       z.object({
-        price: z.string().min(1, 'Informe o preço').max(6),
+        price: z.string().min(1, 'Informe o preço'),
         color: z.string().min(3, 'Mínimo 3 caracteres ou Selecione').max(50),
       })
     ),

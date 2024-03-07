@@ -89,8 +89,6 @@ export const ProductsContextProvider = ({
     try {
       const { data } = await productsService.fetchColors();
 
-      console.log(data, 'colors context');
-
       if (data) {
         setColors(data);
       }

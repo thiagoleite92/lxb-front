@@ -19,7 +19,7 @@ const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
   }
 
   return (
-    <div className="flex h-screen flex-col items-center  gap-y-10 bg-slate-800">
+    <div className="flex min-h-full flex-col items-center gap-y-4 bg-slate-800">
       <ProductsContextProvider>
         <Navbar />
         {children}

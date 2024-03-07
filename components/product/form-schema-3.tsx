@@ -13,13 +13,12 @@ import { FormSuccess } from '@/components/form-success';
 import { Button } from '@/components/ui/button';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 
 import { BrandSelect } from './brand-select';
 import { ModelSelect } from './model-select';
 import { ColorSelect } from './color-select';
 import { ProductsService } from '@/services/ProductService';
-import formatCurrency from '@/utils/formatCurrency';
 import { CreateProductV3, createProductSchemaV3 } from '@/schemas';
 import { Plus, PlusCircle, X, XCircle } from 'lucide-react';
 
@@ -71,22 +70,22 @@ export const FormProductSchema3 = () => {
     });
   };
 
-  const handleSaveList = () => {
+  const handleSubmitList = () => {
     console.log(saveList);
 
     // const body = saveList.map((item) => ({
     //   name: item.name,
     //   brand: item.brand,
     //   model: item.model,
-    //   data: item.data.map((d) => {
+    //   data: item.data.map((d) => ({
+    //     price: Number(d.price)
+    //   })),
+    // }));
 
-    //   })
-    // }))
+    // console.log(body);
 
     startTransition(async () => {
       console.log(saveList);
-
-      return;
 
       try {
         await productService.saveProduct(saveList);
@@ -125,10 +124,10 @@ export const FormProductSchema3 = () => {
       return newState;
     });
 
+    reset();
+
     return;
   };
-
-  const teste = 'w-full bg-red-500';
 
   return (
     <Form {...formSchema3}>
@@ -253,7 +252,7 @@ export const FormProductSchema3 = () => {
             type="button"
             className="w-full"
             disabled={!saveList?.length || isPending}
-            onClick={handleSaveList}
+            onClick={handleSubmitList}
           >
             Salvar lista ({saveList?.length})
           </Button>
