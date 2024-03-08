@@ -23,6 +23,7 @@ interface ProductsContextType {
   brands: { value: string }[];
   colors: { value: string }[];
   models: { value: string }[];
+  setFilter: (value: string) => void;
 }
 
 export const ProductsContext = createContext({} as ProductsContextType);
@@ -36,16 +37,21 @@ export const ProductsContextProvider = ({
 }: ProductsContextProviderProps) => {
   const productsService = new ProductsService();
 
+  const [search, setSearch] = useState('');
+
   const [products, setProducts] = useState<Product[]>([]);
   const [brands, setBrands] = useState<{ value: string }[]>([]);
   const [colors, setColors] = useState<{ value: string }[]>([]);
   const [models, setModels] = useState<{ value: string }[]>([]);
   const [isPending, startTransition] = useTransition();
 
-  const fetchProducts = async () => {
+  const fetchProducts = async (filter?: string) => {
+    if (filter === undefined) return;
+    console.log(filter);
+
     startTransition;
     try {
-      const { data } = await productsService.findAll();
+      const { data } = await productsService.findAll(filter);
 
       if (data) {
         setProducts(data);
@@ -138,6 +144,14 @@ export const ProductsContextProvider = ({
     return;
   };
 
+  const setFilter = (search: string) => {
+    setSearch(search);
+  };
+
+  useEffect(() => {
+    fetchProducts(search);
+  }, [search]);
+
   useEffect(() => {
     fetchProducts();
     fetchBrands();
@@ -155,6 +169,7 @@ export const ProductsContextProvider = ({
         colors,
         models,
         addNewItem,
+        setFilter,
       }}
     >
       {children}

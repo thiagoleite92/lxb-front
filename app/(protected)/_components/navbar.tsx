@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { UserButton } from '@/components/auth/user-button';
+import { Filter } from '@/components/product/filter';
 
 export const Navbar = () => {
   const pathname = usePathname();
@@ -33,6 +34,7 @@ export const Navbar = () => {
           </Button>
         )}
       </div>
+      <Filter />
       <UserButton />
     </nav>
   );
