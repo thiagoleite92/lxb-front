@@ -1,4 +1,6 @@
-import { Product } from '@/app/(protected)/produtos/columns';
+'use client';
+
+import { Product } from '@/app/(protected)/_components/columns';
 import { ProductsService } from '@/services/ProductService';
 import {
   ReactNode,

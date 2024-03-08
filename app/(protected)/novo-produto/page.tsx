@@ -1,5 +1,3 @@
-'use client';
-
 import { ProductForm } from '@/components/product/product-form';
 
 const NewProductPage = () => {

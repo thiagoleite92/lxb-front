@@ -1,3 +1,5 @@
+'use client';
+
 import { FormProductSchema1 } from '@/components/product/form-schema-1';
 import { FormProductSchema2 } from '@/components/product/form-schema-2';
 import { FormWrapper } from '@/components/product/form-wrapper';
@@ -17,8 +19,6 @@ export interface ProductFormProps {
 }
 
 export const ProductForm = ({ productId }: ProductFormProps) => {
-  console.log(productId);
-
   const [formVersion, setFormVersion] = useState<FormVersionEnum>(
     FormVersionEnum.Version1
   );

@@ -21,7 +21,6 @@ import { Button } from '@/components/ui/button';
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  haveData: boolean;
 }
 
 export function DataTable<TData, TValue>({

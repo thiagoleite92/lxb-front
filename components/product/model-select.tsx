@@ -1,3 +1,4 @@
+'use client';
 import { useContext, useEffect, useState } from 'react';
 import { FormControl, FormLabel, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';

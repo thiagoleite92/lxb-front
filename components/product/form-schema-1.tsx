@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Form,
   FormControl,
@@ -21,9 +23,8 @@ import { ModelSelect } from './model-select';
 import { ColorSelect } from './color-select';
 import { ProductsService } from '@/services/ProductService';
 import formatCurrency from '@/utils/formatCurrency';
-import { ProductFormProps } from './product-form';
-import { Product } from '@/app/(protected)/produtos/columns';
 import { toast } from 'sonner';
+import { ProductFormProps } from './product-form';
 
 export const FormProductSchema1 = ({ productId }: ProductFormProps) => {
   const productService = new ProductsService();
